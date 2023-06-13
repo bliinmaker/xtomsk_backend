@@ -2,6 +2,7 @@ import AutoLoad from '@fastify/autoload'
 import mongoose from 'mongoose'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import cors from '@fastify/cors'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -23,6 +24,10 @@ export default async function (fastify, opts) {
 	} catch (e) {
 		console.error(e)
 	}
+
+	await fastify.register(cors, {
+		origin: '*'
+	})
 
 	fastify.register(AutoLoad, {
 		dir: path.join(__dirname, 'plugins'),

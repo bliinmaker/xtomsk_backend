@@ -3,7 +3,7 @@ import { findAll } from '../services/excursion.service.js'
 
 export const getExcursions = async (req, reply) => {
 	try {
-		// const { query } = req
+		const { query } = req
 
 		const excursions = await findAll({ title: query?.title })
 
@@ -16,8 +16,14 @@ export const getExcursions = async (req, reply) => {
 
 export const createExcursion = async (req, reply) => {
 	try {
-		const { title } = req.body
-		const excursion = await Excursion.create({ title: title || null })
+		const { title, themes, description, date, image } = req.body
+		const excursion = await Excursion.create({
+			title: title || null,
+			themes: themes || null,
+			description: description || null,
+			date: date || null,
+			image: image || null,
+		})
 
 		return excursion
 	} catch (error) {

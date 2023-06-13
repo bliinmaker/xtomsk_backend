@@ -1,7 +1,15 @@
 import mongoose from 'mongoose'
 
 const commentSchema = new mongoose.Schema(
-	{ title: String, description: String },
+	{
+		title: {
+			type: String,
+			required: [true, 'Title is required field'],
+		},
+		image: {
+			String,
+		},
+	},
 	{
 		timestamps: true,
 	}

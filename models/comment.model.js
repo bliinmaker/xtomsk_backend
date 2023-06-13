@@ -4,10 +4,13 @@ const commentSchema = new mongoose.Schema(
 	{
 		title: {
 			type: String,
-			required: [true, 'Title is required field'],
+		},
+		message: {
+			type: String,
+			required: [true, 'Message is required field'],
 		},
 		image: {
-			String,
+			type: String,
 		},
 	},
 	{

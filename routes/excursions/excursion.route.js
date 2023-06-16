@@ -1,5 +1,6 @@
 import {
 	createExcursion,
+	getExcursion,
 	getExcursions,
 	removeExcursion,
 } from '../../controllers/excursion.controller.js'
@@ -26,6 +27,8 @@ import {
 
 export default async function (fastify, opts) {
 	fastify.get('/', getExcursions)
+
+	fastify.get('/:id', getExcursion)
 
 	fastify.post('/', createExcursion)
 

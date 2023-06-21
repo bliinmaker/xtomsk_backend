@@ -23,7 +23,7 @@ export const findAll = async ({ title, theme, date }) => {
 	return excursions
 }
 
-export const findById = async id => {
+export const findById = async (id) => {
 	const excursion = await Excursion.findById(id)
 
 	return excursion

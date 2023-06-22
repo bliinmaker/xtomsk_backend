@@ -3,7 +3,7 @@ import {
 	getOrder,
 	getOrders,
 	removeOrder,
-} from '../../controllers/order.controller'
+} from '../../controllers/order.controller.js'
 
 export default async function (fastify, opts) {
 	fastify.get('/', getOrders)

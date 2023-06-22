@@ -1,11 +1,11 @@
 import Order from '../models/order.model.js'
-import { findAll, findById } from '../services/order.service.js'
+import * as OrderService from '../services/order.service.js'
 
 export const getOrders = async (req, reply) => {
 	try {
 		const { query } = req
 
-		const orders = await findAll({
+		const orders = await OrderService.findAll({
 			title: query?.title,
 		})
 
@@ -18,14 +18,7 @@ export const getOrders = async (req, reply) => {
 
 export const createOrder = async (req, reply) => {
 	try {
-		const { nameOfTheTour, name, surname, phone, email } = req.body
-		const order = await Order.create({
-			nameOfTheTour: nameOfTheTour || null,
-			name: name || null,
-			surname: surname || null,
-			phone: phone || null,
-			email: email || null,
-		})
+		const order = await OrderService.createOrder(req.body)
 
 		return order
 	} catch (error) {
@@ -47,7 +40,7 @@ export const removeOrder = async (req, reply) => {
 
 export const getOrder = async (req, reply) => {
 	try {
-		const order = await findById(req.params.id)
+		const order = await OrderService.findById(req.params.id)
 
 		return order
 	} catch (error) {

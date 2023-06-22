@@ -24,7 +24,11 @@ export const findAll = async ({ title, theme, date }) => {
 }
 
 export const findById = async (id) => {
-	const excursion = await Excursion.findById(id)
+	const existedExcursion = await Excursion.findById(id)
 
-	return excursion
+	if (!existedExcursion) {
+		throw new Error('Excursion does not exist!')
+	}
+
+	return existedExcursion
 }

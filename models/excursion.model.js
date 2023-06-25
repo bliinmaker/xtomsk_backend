@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const excursionSchema = new mongoose.Schema(
-	{ 
+	{
 		title: {
 			type: String,
 			required: [true, 'Title is required field']
@@ -21,6 +21,11 @@ const excursionSchema = new mongoose.Schema(
 			type: String,
 			required: [true, 'Image is required field']
 		},
+		comments: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Comment',
+			required: [true, 'Comments ID is required'],
+		}],
 	},
 	{
 		timestamps: true,

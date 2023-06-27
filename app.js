@@ -26,7 +26,8 @@ export default async function (fastify, opts) {
 	}
 
 	await fastify.register(cors, {
-		origin: '*'
+		origin: '*',
+		methods: ['GET', 'POST', 'PUT', 'PATCH'],
 	})
 
 	fastify.register(AutoLoad, {

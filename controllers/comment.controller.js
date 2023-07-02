@@ -1,11 +1,11 @@
 import Comment from '../models/comment.model.js'
-import { findAll } from '../services/comment.service.js'
+import * as ServiceComment from '../services/comment.service.js'
 
 export const getComments = async (req, reply) => {
 	try {
 		const { query } = req
 
-		const comments = await findAll({ title: query?.title })
+		const comments = await ServiceComment.findAll({ title: query?.title })
 
 		return reply.code(200).send(comments)
 	} catch (error) {
@@ -14,13 +14,15 @@ export const getComments = async (req, reply) => {
 	}
 }
 
-export const createComment = async (req, reply) => {
+export const postComment = async (req, reply) => {
 	try {
-		const { title, message, image } = req.body
-		const comment = await Comment.create({
-			title: title || null,
-			message: message || null,
-			image: image || null,
+		const { excursionId } = req.params
+		const { nickName, message, image } = req.body
+		const comment = ServiceComment.createComment({
+			excursionId,
+			nickName,
+			message,
+			image,
 		})
 
 		return comment

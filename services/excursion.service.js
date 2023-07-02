@@ -18,7 +18,10 @@ export const findAll = async ({ title, theme, date }) => {
 		}
 	}
 
-	const excursions = await Excursion.find(filter)
+	const excursions = await Excursion.find(filter).populate([{
+          path: 'comments',
+          model: 'Comment',
+        }])
 
 	return excursions
 }
@@ -31,4 +34,14 @@ export const findById = async (id) => {
 	}
 
 	return existedExcursion
+}
+
+export const attachComment = async (commentId, excursionId) => {
+	
+	const excursion = await Excursion.updateOne(
+		{ _id: excursionId },
+		{ $push: { comments: commentId } }
+	)
+
+	return excursion
 }

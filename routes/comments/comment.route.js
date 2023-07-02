@@ -1,5 +1,5 @@
 import {
-	createComment,
+	postComment,
 	getComments,
 	removeComment,
 } from '../../controllers/comment.controller.js'
@@ -7,7 +7,8 @@ import {
 export default async function (fastify, opts) {
 	fastify.get('/', getComments)
 
-	fastify.post('/', createComment)
+	// localhost:3000/comments/excursionId/
+	fastify.post('/:excursionId', postComment)
 
 	fastify.delete('/:id', removeComment)
 }

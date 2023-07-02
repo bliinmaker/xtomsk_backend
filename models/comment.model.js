@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const commentSchema = new mongoose.Schema(
 	{
-		nickname: {
+		nickName: {
 			type: String,
 			required: [true, 'Nickname is required field'],
 		},

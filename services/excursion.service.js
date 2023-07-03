@@ -27,7 +27,10 @@ export const findAll = async ({ title, theme, date }) => {
 }
 
 export const findById = async (id) => {
-	const existedExcursion = await Excursion.findById(id)
+	const existedExcursion = await Excursion.findById(id).populate([{
+		path: 'comments',
+		model: 'Comment',
+	  }])
 
 	if (!existedExcursion) {
 		throw new Error('Excursion does not exist!')

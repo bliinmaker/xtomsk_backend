@@ -1,6 +1,6 @@
 import {
-	postComment,
 	getComments,
+	postComment,
 	removeComment,
 } from '../../controllers/comment.controller.js'
 

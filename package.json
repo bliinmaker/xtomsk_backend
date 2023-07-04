@@ -10,7 +10,7 @@
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
     "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js"
+    "dev": "fastify start --watch --ignore-watch='uploads' -l info --verbose-watch -P app.js"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +18,14 @@
   "dependencies": {
     "@fastify/autoload": "^5.0.0",
     "@fastify/cors": "^8.3.0",
+    "@fastify/multipart": "^7.7.0",
     "@fastify/sensible": "^5.0.0",
+    "@fastify/static": "^6.10.2",
     "fastify": "^4.0.0",
     "fastify-cli": "^5.7.1",
     "fastify-plugin": "^4.0.0",
-    "mongoose": "^7.2.2"
+    "mongoose": "^7.2.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@istanbuljs/esm-loader-hook": "0.2.0",

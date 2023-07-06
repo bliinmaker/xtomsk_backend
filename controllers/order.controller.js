@@ -1,4 +1,3 @@
-import Order from '../models/order.model.js'
 import * as OrderService from '../services/order.service.js'
 
 export const getOrders = async (req, reply) => {
@@ -29,7 +28,7 @@ export const createOrder = async (req, reply) => {
 
 export const removeOrder = async (req, reply) => {
 	try {
-		const order = await Order.findByIdAndDelete(req.params.id)
+		const order = await OrderService.findByIdAndDelete(req.params.id)
 
 		return order
 	} catch (error) {

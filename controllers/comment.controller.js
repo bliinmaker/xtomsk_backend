@@ -34,7 +34,7 @@ export const postComment = async (req, reply) => {
 
 export const removeComment = async (req, reply) => {
 	try {
-		const comment = await Comment.findByIdAndDelete(req.params.id)
+		const comment = await ServiceComment.findByIdAndDelete(req.params.id)
 
 		return comment
 	} catch (error) {

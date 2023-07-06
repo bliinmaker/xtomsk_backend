@@ -32,3 +32,9 @@ export const createOrder = async ({
 
 	return order
 }
+
+export const findByIdAndDelete = async (id)=>{
+	const order = await Order.findByIdAndDelete(id)
+
+	return order
+}

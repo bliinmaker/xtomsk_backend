@@ -18,16 +18,9 @@ export const getExcursions = async (req, reply) => {
 	}
 }
 
-export const createExcursion = async (req, reply) => {
+export const postExcursion = async (req, reply) => {
 	try {
-		const { title, theme, description, date, image } = req.body
-		const excursion = await Excursion.create({
-			title: title || null,
-			theme: theme || null,
-			description: description || null,
-			date: date || null,
-			image: image || null,
-		})
+		const excursion = ExcursionService.createExcursion(req.body)
 
 		return excursion
 	} catch (error) {
@@ -38,7 +31,7 @@ export const createExcursion = async (req, reply) => {
 
 export const removeExcursion = async (req, reply) => {
 	try {
-		const excursion = await Excursion.findByIdAndDelete(req.params.id)
+		const excursion = await ExcursionService.findByIdAndDelete(req.params.id)
 
 		return excursion
 	} catch (error) {

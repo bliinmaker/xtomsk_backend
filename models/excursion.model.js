@@ -26,6 +26,9 @@ const excursionSchema = new mongoose.Schema(
 			ref: 'Comment',
 			required: [true, 'Comments ID is required'],
 		}],
+		rating: [{
+			type: Number,
+		}]
 	},
 	{
 		timestamps: true,

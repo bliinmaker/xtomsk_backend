@@ -1,10 +1,11 @@
 import AutoLoad from '@fastify/autoload'
-import mongoose from 'mongoose'
-import path from 'path'
-import { fileURLToPath } from 'url'
 import cors from '@fastify/cors'
 import multipart from '@fastify/multipart'
 import fastifyStatic from '@fastify/static'
+import 'dotenv/config'
+import mongoose from 'mongoose'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -18,9 +19,12 @@ const connectMongoOptions = {
 }
 
 export default async function (fastify, opts) {
+
 	try {
 		await mongoose.connect(
-			'mongodb://localhost:27017/xtomsk',
+			process.env.API_MONGODB_URI,
+			// 'mongodb+srv://admin:admin@xtomskcluster.xawbqzg.mongodb.net/xtomsk?retryWrites=true&w=majority',
+			//mongodb+srv://admin:admin@allinone.d9ysbto.mongodb.net/xtomsk?retryWrites=true&w=majority
 			connectMongoOptions
 		)
 	} catch (e) {
@@ -32,14 +36,14 @@ export default async function (fastify, opts) {
 		methods: ['GET', 'POST', 'PUT', 'PATCH'],
 	})
 
-	fastify.register(multipart);
+	fastify.register(multipart)
 
 	// /user/mount/test/filename.jpg
 	// c:\users\Username\filename.jpg
-	
+
 	fastify.register(fastifyStatic, {
-		root: path.join(__dirname, 'uploads', 'images')
-	});
+		root: path.join(__dirname, 'uploads', 'images'),
+	})
 
 	fastify.get('/uploads/images/:imageName', (req, reply) => {
 		reply.sendFile(req.params.imageName)

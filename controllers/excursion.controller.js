@@ -1,20 +1,15 @@
-import Excursion from '../models/excursion.model.js'
 import * as ExcursionService from '../services/excursion.service.js'
 
 export const getExcursions = async (req, reply) => {
 	try {
 		const { query } = req
 
-		const excursions = await ExcursionService.findAll({
-			title: query?.title,
-			theme: query?.theme,
-			date: query?.date,
-		})
+		const excursions = await ExcursionService.findAll(query)
 
 		return reply.code(200).send(excursions)
 	} catch (error) {
 		console.error(error)
-		return reply.code(404).send({ status: 404, message: 'entity not found' })
+		return reply.code(error.code).send(error)
 	}
 }
 

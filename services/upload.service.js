@@ -29,7 +29,8 @@ export const createUploadImage = async imageData => {
 
 	const storedFile = fs.createWriteStream(uploadedFilePath)
 
-	await pipeline(imageData.file, storedFile)
+	// await pipeline(imageData.file, storedFile) и вместо этой строчки написать вот как внизу
+	await pipeline(imageData.toBuffer(), storedFile)
 
 	return fileName
 }

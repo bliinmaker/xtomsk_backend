@@ -6,6 +6,14 @@ import 'dotenv/config'
 import mongoose from 'mongoose'
 import path from 'path'
 import { fileURLToPath } from 'url'
+//Добавить эти импорты но прежде установить npm i @adminjs/mongoose @adminjs/fastify adminjs connect-mongo
+import AdminJSFastify from '@adminjs/fastify'
+import AdminJS, { ComponentLoader } from 'adminjs'
+import * as AdminJSMongoose from '@adminjs/mongoose'
+import MongoStore from 'connect-mongo'
+import Excursion from './models/excursion.model.js';
+import Order from './models/order.model.js';
+import Comment from './models/comment.model.js';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -16,6 +24,60 @@ const connectMongoOptions = {
 	keepAlive: true,
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
+}
+
+const runAdminJs = async function (fastify)  {
+	AdminJS.registerAdapter({
+		Resource: AdminJSMongoose.Resource,
+		Database: AdminJSMongoose.Database,
+	})
+
+
+	const DEFAULT_ADMIN = {
+		email: 'admin@example.com',
+		password: '123456',
+	}
+	const authenticate = async (email, password) => {
+		if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
+			return Promise.resolve(DEFAULT_ADMIN)
+		}
+		return null
+	}
+
+
+	// "secret" must be a string with at least 32 characters, example:
+	const cookieSecret = 'sieL67H7GbkzJ4XCoH0IHcmO1hGBSiG5'
+	const admin = new AdminJS({
+		rootPath: '/admin',
+		resources: [Excursion, Comment, Order],
+	});
+
+	const sessionStore =  MongoStore.create({
+		client: mongoose.connection.getClient(),
+		collectionName: 'sessions',
+		stringify: false,
+		autoRemove: 'interval',
+		autoRemoveInterval: 1
+	});
+
+	await AdminJSFastify.buildAuthenticatedRouter(
+		admin,
+		{
+			authenticate,
+			cookiePassword: cookieSecret,
+			cookieName: 'adminjs',
+		},
+		fastify,
+		{
+			store: sessionStore,
+			saveUninitialized: true,
+			secret: cookieSecret,
+			cookie: {
+				httpOnly: false,
+				secure: false,
+			},
+		}
+	)
 }
 
 export default async function (fastify, opts) {
@@ -36,7 +98,11 @@ export default async function (fastify, opts) {
 		methods: ['GET', 'POST', 'PUT', 'PATCH'],
 	})
 
-	fastify.register(multipart)
+	// !!! admin JS
+	// fastify.register(multipart); <- Эту строчку надо обязательно закомментить
+	await runAdminJs(fastify)  // эту добавить
+
+	// fastify.register(multipart)
 
 	// /user/mount/test/filename.jpg
 	// c:\users\Username\filename.jpg
